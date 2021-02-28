@@ -1,9 +1,10 @@
 module Main exposing (..)
 
 import Browser
-import Html exposing (Html, text, div, h1, img, button, br)
+import Html exposing (Html, text, div)
+import Bootstrap.Button as Button
 import Html.Events exposing (onClick)
-import Html.Attributes exposing (src)
+import Html.Attributes exposing (src, style)
 import Ports
 import Json.Decode as Decode
 import Json.Encode as Encode
@@ -54,7 +55,7 @@ atTime m = Task.perform (OnTime m) Time.now
 
 formatTime : Time.Zone -> Time.Posix -> String
 formatTime = 
-    Format.format "dddd, MMMM dd, yyyy HH:mm:ss" 
+    Format.format "MM/dd HH:mm" 
 
 tail : List a -> List a
 tail arg = 
@@ -104,11 +105,29 @@ view : Model -> Browser.Document Msg
 view model =
     { title = "Islog"
     , body = [
-        div []
-        [ button [ onClick (AtTime "Fooded the bebe. ") ] [ text "Feed" ]
-        , button [ onClick (AtTime "The bebe is nappin. ") ] [ text "Start Nap" ]
-        , button [ onClick (AtTime "The bebe is not nappin. ") ] [ text "End Nap" ]
-        , button [ onClick DeleteLast ] [ text "Oops" ]
+        div [] [ 
+            div 
+              [ style "display" "flex"
+              , style "flex-wrap" "wrap" 
+              , style "justify-content" "space-evenly"
+              , style "padding" "10px"] 
+            [ Button.button 
+              [ Button.large, Button.primary
+              , Button.attrs [ onClick (AtTime "Foodered the bebe. ") ] ] 
+              [ text "Feed" ]
+            , Button.button 
+              [ Button.large, Button.primary
+              , Button.attrs [ onClick (AtTime "The bebe is nappin. ") ] ] 
+              [ text "Start Nap" ]
+            , Button.button 
+              [ Button.large, Button.primary
+              , Button.attrs [ onClick (AtTime "The bebe is not nappin. ") ] ] 
+              [ text "End Nap" ]
+            , Button.button 
+              [ Button.large, Button.danger
+              , Button.attrs [ onClick DeleteLast ] ] 
+              [ text "Oops" ]
+            ]
         , div [] (List.map viewEvent model.events)
         ]
     ]
