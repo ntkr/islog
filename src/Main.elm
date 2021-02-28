@@ -3,6 +3,8 @@ module Main exposing (..)
 import Browser
 import Html exposing (Html, text, div)
 import Bootstrap.Button as Button
+import Bootstrap.Card as Card
+import Bootstrap.Card.Block as Block
 import Html.Events exposing (onClick)
 import Html.Attributes exposing (src, style)
 import Ports
@@ -99,7 +101,10 @@ saveEvents events =
 
 viewEvent : String -> Html Msg
 viewEvent msg = 
-    div [] [ text msg ]
+    Card.config []
+        |> Card.block []
+            [ Block.text [] [ text msg ]]
+        |> Card.view
 
 view : Model -> Browser.Document Msg
 view model =
